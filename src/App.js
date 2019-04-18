@@ -1,25 +1,37 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Movie from './Movie.js';
+
+const movies = [
+  {
+    title: "Iron Man",
+    poster: "https://movie-phinf.pstatic.net/20111222_37/1324501632182vbSoY_JPEG/movie_image.jpg"
+  },
+  {
+    title: "Transformer",
+    poster: "https://movie-phinf.pstatic.net/20111223_180/1324583623164LA0FV_JPEG/movie_image.jpg"
+  },
+  {
+    title: "National Treasure",
+    poster: "https://movie-phinf.pstatic.net/20111221_116/1324452697896DMgIP_JPEG/movie_image.jpg"
+  },
+  {
+    title: "Ocean's eleven",
+    poster: "https://movie-phinf.pstatic.net/20111222_295/1324531366643q7BRh_JPEG/movie_image.jpg"
+  },
+  {
+    title: "Italian job",
+    poster: "https://movie-phinf.pstatic.net/20111221_192/1324475568659ItkXm_JPEG/movie_image.jpg"
+  }
+];
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        {movies.map(movie => {
+          return <Movie title = {movie.title} poster={movie.poster} />
+        })}
       </div>
     );
   }
