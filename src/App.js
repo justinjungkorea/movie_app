@@ -3,63 +3,47 @@ import './App.css';
 import Movie from './Movie';
 
 class App extends Component {
-  state = {
-    
-  };
+  state = {};
 
   componentDidMount() {
-    setTimeout(()=>{
-      this.setState({
-        movies: [
-          {
-            title: "Iron Man",
-            poster:
-              "https://movie-phinf.pstatic.net/20111222_37/1324501632182vbSoY_JPEG/movie_image.jpg"
-          },
-          {
-            title: "Transformer",
-            poster:
-              "https://movie-phinf.pstatic.net/20111223_180/1324583623164LA0FV_JPEG/movie_image.jpg"
-          },
-          {
-            title: "National Treasure",
-            poster:
-              "https://movie-phinf.pstatic.net/20111221_116/1324452697896DMgIP_JPEG/movie_image.jpg"
-          },
-          {
-            title: "Ocean's eleven",
-            poster:
-              "https://movie-phinf.pstatic.net/20111222_295/1324531366643q7BRh_JPEG/movie_image.jpg"
-          },
-          {
-            title: "Italian job",
-            poster:
-              "https://movie-phinf.pstatic.net/20111221_192/1324475568659ItkXm_JPEG/movie_image.jpg"
-          },
-          {
-            title: "Tranporter",
-            poster:
-              "https://movie-phinf.pstatic.net/20111222_261/1324487946607k7Dwz_JPEG/movie_image.jpg"
-          }
-        ]
-      });
-    },5000)
+    this._getMovies();
   }
 
-  _rederMovies = () =>{
-    const movies = this.state.movies.map((movie, index) => {
+  _renderMovies = () => {
+    const movies = this.state.movies.map(movie => {
       return (
-        <Movie title={movie.title} poster={movie.poster} key={index} />
+        <Movie
+          title={movie.title_english}
+          poster={movie.medium_cover_image}
+          key={movie.id}
+          genres={movie.genres}
+          rating={movie.rating}
+          summary={movie.summary}
+        />
       );
-    });
-
+    })
     return movies;
-  }
+  };
+
+  _getMovies = async () => {
+    const movies = await this._callApi();
+    this.setState({ 
+      movies 
+    });
+  };
+
+  _callApi = () => {
+    return fetch("https://yts.am/api/v2/list_movies.json?sort_by=rating&limit=50")
+      .then(response => response.json())
+      .then(json => json.data.movies)
+      .catch(err => console.log(err));
+  };
 
   render() {
+    const {movies} = this.state;
     return (
-      <div className="App">
-        {this.state.movies ? this._rederMovies() : 'Loading...'}
+      <div className={movies ? "App" : "App--loading"}>
+        {movies ? this._renderMovies() : "Loading..."}
       </div>
     );
   }
