@@ -22,7 +22,7 @@ function Movie({title, poster, genres, summary, rating}){
           text={summary}
           maxLine='3'
           ellipsis='...'
-          trimRight
+          trimRight 
           basedOn='letters'
         />
         </div>
