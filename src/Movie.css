@@ -34,8 +34,14 @@
 
 .Movie .Movie__Summary{
     text-overflow: ellipsis;
-    color: #b4b5bd;
+    color: #47402D;
     overflow: hidden;
+}
+
+.read-more-button{
+    color: #286DA8;
+    cursor: pointer;
+    text-align: right;
 }
 
 .Movie .Movie__Poster{
@@ -64,6 +70,6 @@
     }
 
     .Movie__Columns{
-        widows: 100% !important;
+        width: 100% !important;
     }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import LinesEllipsis from 'react-lines-ellipsis'
+import StarRatings from 'react-star-ratings'
+import ReadMoreReact from 'read-more-react'
 import "./Movie.css";
 
 function Movie({title, poster, genres, summary, rating}){
@@ -11,20 +12,22 @@ function Movie({title, poster, genres, summary, rating}){
       </div>
       <div className="Movie__Columns">
         <h1>{title}</h1>
+        <div className="Movie__Rating">
+          <StarRatings
+            rating={rating / 2}
+            starRatedColor="#FFBA02"
+            numberOfStars={5}
+            starDimension="20px"
+            starSpacing="2px"
+          />
+        </div>
         <div className="Movie__Genres">
-          <h3>{rating}</h3>
           {genres.map((genre, index) => (
             <MovieGenre genre={genre} key={index} />
           ))}
         </div>
         <div className="Movie__Summary">
-        <LinesEllipsis
-          text={summary}
-          maxLine='3'
-          ellipsis='...'
-          trimRight 
-          basedOn='letters'
-        />
+          <ReadMoreReact text={summary} min={80} ideal={100} />
         </div>
       </div>
     </div>
@@ -44,7 +47,7 @@ Movie.propTypes = {
   poster: PropTypes.string.isRequired,
   genres: PropTypes.array.isRequired,
   summary: PropTypes.string.isRequired,
-  rating: PropTypes.string.isRequired
+  rating: PropTypes.number.isRequired
 }
 
 MoviePoster.propTypes = {
