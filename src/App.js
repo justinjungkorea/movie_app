@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import './App.css';
 import Movie from './Movie';
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteLoader from "react-infinite-loader";
 
 class App extends Component {
   state = {
     num:1,
     movies: [],
+    maximumPage:100
   };
  
 
   componentDidMount() {
-    this._getMovies(1);
+    this._firstPage();
   }
 
   _renderMovies = () => {
@@ -36,9 +37,11 @@ class App extends Component {
   }
 
   _getMovies = async (num) => {
+    let items = this.state.movies.slice();
     const newMovies = await this._callApi(num);
+    items = items.concat(newMovies);
     this.setState({ 
-      movies: this.state.movies.concat(newMovies)
+      movies: items
     });
   };
 
@@ -50,13 +53,18 @@ class App extends Component {
   };
 
   _loaditems = () => {
-
+      this.state.num++;
+      this._getMovies(this.state.num);
   };
 
   render() {
+    console.log(this.state.movies.length);
     return (
       <div className={this.state.movies.length !== 0 ? "App" : "App--loading"}>
         {this.state.movies.length !== 0 ? this._renderMovies() : "Loading..."}
+        <div>
+          {this.state.num<3 ? <InfiniteLoader onVisited={() => this._loaditems()} /> : <p></p>}
+        </div>
       </div>
     );
   }
