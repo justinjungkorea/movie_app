@@ -7,7 +7,7 @@ class App extends Component {
   state = {
     num:1,
     movies: [],
-    maximumPage:100
+    maximumPage:200
   };
  
 
@@ -53,17 +53,25 @@ class App extends Component {
   };
 
   _loaditems = () => {
-      this.state.num++;
+    if(this.state.num < this.state.maximumPage){
+      this.setState({
+        num: this.state.num + 1
+      });
       this._getMovies(this.state.num);
+    }
   };
 
   render() {
     console.log(this.state.movies.length);
     return (
-      <div className={this.state.movies.length !== 0 ? "App" : "App--loading"}>
-        {this.state.movies.length !== 0 ? this._renderMovies() : "Loading..."}
+      <div
+        className={this.state.movies.length !== 0 ? "App" : "App--loading"}
+      >
+        {this.state.movies.length !== 0
+          ? this._renderMovies()
+          : "Loading..."}
         <div>
-          {this.state.num<3 ? <InfiniteLoader onVisited={() => this._loaditems()} /> : <p></p>}
+          <InfiniteLoader onVisited={() => this._loaditems()} />
         </div>
       </div>
     );
